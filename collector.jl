@@ -7,20 +7,24 @@ using Underscores
 using DataFrames
 using Logging, LoggingFacilities
 
-@_ ConsoleLogger(stdout; show_limited=false) |> 
-   OneLineTransformerLogger |> 
+@_ ConsoleLogger(stdout; show_limited=false) |>
+   OneLineTransformerLogger |>
    TimestampTransformerLogger(__, BeginningMessageLocation(); format = "yyyy-mm-dd HH:MM:SS") |>
    global_logger
 
 const TOKEN = strip(read("pat", String))
 const GRAPHQLURL = "https://api.github.com/graphql"
-const OUTFILE = "jlgh.csv"
+const OUTFILE = "mm.csv"
 const DATAROOT = "data"
 const REPOS = [
-               # ("JuliaLang", "julia", "jlgh.csv"),
-               # ("rust-lang", "rust", "rustgh.csv"),
-               ("chapel-lang", "chapel", "chapelgh.csv"),
-               ("nim-lang", "Nim", "nim.csv"),
+               ("open-mmlab", "mmpose", "mmpose.csv"),
+               ("open-mmlab", "mmaction2", "mmaction2.csv"),
+               ("open-mmlab", "mmclassification", "mmclassification.csv"),
+               ("open-mmlab", "mmediting", "mmediting.csv"),
+               ("open-mmlab", "mmdetection", "mmdetection.csv"),
+               ("open-mmlab", "mmsegmentation", "mmsegmentation.csv"),
+               ("open-mmlab", "mmdetection3d", "mmdetection3d.csv"),
+               ("open-mmlab", "mmcv", "mmcv.csv"),
 ]
 const QUERY = mt"""
 query {
