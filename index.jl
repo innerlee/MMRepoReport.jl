@@ -89,6 +89,7 @@ let
 		transform(:createdAt => (x -> Dates.format.(x, "yyyy-mm")) => :create_month)
 		groupby(:create_month)
 		combine(nrow => :cnt)
+		sort(:create_month)
 	end
 
 	df2 = @chain df begin
@@ -96,6 +97,7 @@ let
 		transform(:createdAt => (x -> Dates.format.(x, "yyyy-mm")) => :create_month)
 		groupby(:create_month)
 		combine(nrow => :cnt)
+		sort(:create_month)
 	end
 
 	acc = @chain innerjoin(df1, df2; on = :create_month, makeunique = true) begin
@@ -243,6 +245,7 @@ let
 			nrow => :cnt,
 			:delta => (x -> sum(x .>= 24*30)) => :cnt_month_wait,
 		)
+		sort(:month)
 	end
 
 	df2 = @chain df1 begin
@@ -335,6 +338,7 @@ let
 		combine(nrow => :cnt)
 		unstack(:iscore, :cnt)
 		transform([:Core, :Other] => ((x, y) -> y./(y .+ x)) => :other_ratio)
+		sort(:month)
 	end
 
 	plot(df1.month, df1.Core, label = "Core", legend = :topleft, title = "Number of PRs by developer group")
@@ -352,6 +356,7 @@ let
 		groupby([:month, :iscore])
 		combine(:delta => (x -> quantile(x, 0.5)) => :median)
 		unstack(:iscore, :median)
+		sort(:month)
 	end
 
 	plot(df2.month, df2.Core, label = "Core", legend = :topleft)
