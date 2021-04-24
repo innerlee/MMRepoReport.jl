@@ -1,5 +1,5 @@
 ### A Pluto.jl notebook ###
-# v0.14.3
+# v0.12.16
 
 using Markdown
 using InteractiveUtils
@@ -18,11 +18,11 @@ end
 
 # ╔═╡ 341942e4-34b0-11eb-06cb-5567deeb8ff3
 md"""
-## MMDet repository report
+## MMTracking repository report
 """
 
 # ╔═╡ 1700751e-32ea-11eb-2542-8dc5191e8fdd
-df = CSV.File("data/mmdetection.csv", delim = '\1') |> DataFrame;
+df = CSV.File("data/mmtracking.csv", delim = '\1') |> DataFrame;
 
 # ╔═╡ 4d51622c-32ea-11eb-0447-115d7d50b528
 let

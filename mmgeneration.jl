@@ -18,11 +18,11 @@ end
 
 # ╔═╡ 341942e4-34b0-11eb-06cb-5567deeb8ff3
 md"""
-## MMDet repository report
+## MMGeneration repository report
 """
 
 # ╔═╡ 1700751e-32ea-11eb-2542-8dc5191e8fdd
-df = CSV.File("data/mmdetection.csv", delim = '\1') |> DataFrame;
+df = CSV.File("data/mmgeneration.csv", delim = '\1') |> DataFrame;
 
 # ╔═╡ 4d51622c-32ea-11eb-0447-115d7d50b528
 let

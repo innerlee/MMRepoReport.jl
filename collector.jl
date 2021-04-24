@@ -18,6 +18,9 @@ const OUTFILE = "mm.csv"
 const DATAROOT = "data"
 const REPOS = [
                ("open-mmlab", "mmpose", "mmpose.csv"),
+               ("open-mmlab", "mmtracking", "mmtracking.csv"),
+               ("open-mmlab", "mmgeneration", "mmgeneration.csv"),
+               ("open-mmlab", "mmocr", "mmocr.csv"),
                ("open-mmlab", "mmaction2", "mmaction2.csv"),
                ("open-mmlab", "mmclassification", "mmclassification.csv"),
                ("open-mmlab", "mmediting", "mmediting.csv"),
