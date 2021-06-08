@@ -21,13 +21,19 @@ folium = pyimport("folium")
    TimestampTransformerLogger(__, BeginningMessageLocation(); format = "yyyy-mm-dd HH:MM:SS") |>
    global_logger
 
-repo = "mmdetection"
 repo = "PaddleDetection"
 repo = "PaddleOCR"
 repo = "mmocr"
 repo = "mmediting"
 repo = "mmpose"
+repo = "mmtracking"
+repo = "mmdetection3d"
+repo = "mmsegmentation"
+repo = "mmgeneration"
+repo = "mmclassification"
 repo = "mmaction2"
+repo = "mmdetection"
+repo = "mmcv"
 
 df = CSV.File("data/$repo-stars.csv", delim = '\1') |> DataFrame
 locations = strip.(replace.(filter(!ismissing, df.location), ["@" => ""]))
