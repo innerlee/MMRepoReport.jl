@@ -27,6 +27,7 @@ repo = "PaddleOCR"
 repo = "mmocr"
 repo = "mmediting"
 repo = "mmpose"
+repo = "mmaction2"
 
 df = CSV.File("data/$repo-stars.csv", delim = '\1') |> DataFrame
 locations = strip.(replace.(filter(!ismissing, df.location), ["@" => ""]))
@@ -75,16 +76,15 @@ df2 = DataFrame(result)
 df2 = df2[(!=)("").(df2.country), :]
 CSV.write("data/$repo-stars-locations.csv", result; delim = '\1', append = false)
 
+
 df2 = CSV.File("data/$repo-stars-locations.csv", delim = '\1') |> DataFrame
-
 m = folium.Map(location=[20,0], tiles="OpenStreetMap", zoom_start=2)
-
 nums = countmap([x for x in zip(df2.lat, df2.lng)])
 
 for r in eachrow(df2)
     folium.Circle(
        location=(r.lat, r.lng),
-       popup=r.country,
+       popup=r.country * (ismissing(r.state) ? "" : ", $(r.state)") * (ismissing(r.city) ? "" : ", $(r.city)"),
        radius=nums[(r.lat, r.lng)]*5000,
        color="crimson",
        fill=true,
