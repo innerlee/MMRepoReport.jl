@@ -94,22 +94,22 @@ function execute(country)
     return JSON3.read(String(res.body))[1]
 end
 
-for r in eachrow(df2)
-    if ismissing(r.city) && !ismissing(r.country)
-        if !(r.country in keys(country_map))
-            try
-                c = execute(r.country)
-                country_map[r.country] = (;city=c.capital, lat=c.latlng[1], lng=c.latlng[2])
-                println(country_map[r.country])
-            catch
-            end
-        else
-            r.city = country_map[r.country].city
-            r.lat = country_map[r.country].lat
-            r.lng = country_map[r.country].lng
-        end
-    end
-end
+# for r in eachrow(df2)
+#     if ismissing(r.city) && !ismissing(r.country)
+#         if !(r.country in keys(country_map))
+#             try
+#                 c = execute(r.country)
+#                 country_map[r.country] = (;city=c.capital, lat=c.latlng[1], lng=c.latlng[2])
+#                 println(country_map[r.country])
+#             catch
+#             end
+#         else
+#             r.city = country_map[r.country].city
+#             r.lat = country_map[r.country].lat
+#             r.lng = country_map[r.country].lng
+#         end
+#     end
+# end
 nums = countmap([x for x in zip(df2.lat, df2.lng)])
 
 for r in eachrow(df2)
