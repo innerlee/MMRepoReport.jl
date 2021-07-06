@@ -1,3 +1,4 @@
+#!/usr/bin/env julia
 using HTTP
 using JSON3
 using Dates
@@ -28,8 +29,9 @@ const REPOS = [
                ("open-mmlab", "mmsegmentation", "mmsegmentation-stars.csv"),
                ("open-mmlab", "mmdetection3d", "mmdetection3d-stars.csv"),
                ("open-mmlab", "mmcv", "mmcv-stars.csv"),
-               ("PaddlePaddle", "PaddleDetection", "PaddleDetection-stars.csv"),
-               ("PaddlePaddle", "PaddleOCR", "PaddleOCR-stars.csv"),
+               ("open-mmlab", "mim", "mim-stars.csv"),
+              #  ("PaddlePaddle", "PaddleDetection", "PaddleDetection-stars.csv"),
+              #  ("PaddlePaddle", "PaddleOCR", "PaddleOCR-stars.csv"),
               ]
 const QUERY = mt"""
 {
@@ -43,6 +45,7 @@ const QUERY = mt"""
       }
       edges {
         cursor
+        starredAt
       }
     }
   }
@@ -73,14 +76,16 @@ struct STAR
     # lat::Float64
     # lng::Float64
     createdAt::DateTime
+    starredAt::DateTime
 end
 
 function STAR(node)
-    name = isnothing(node.name) ? "" : node.name
-    company = isnothing(node.company) ? "" : node.company
-    location = isnothing(node.location) ? "" : node.location
-    createdAt = DateTime(node.createdAt[1:end-1])
-    STAR(name, company, location, createdAt)
+    name = isnothing(node[:name]) ? "" : node[:name]
+    company = isnothing(node[:company]) ? "" : node[:company]
+    location = isnothing(node[:location]) ? "" : node[:location]
+    createdAt = DateTime(node[:createdAt][1:end-1])
+    starredAt = DateTime(node[:starredAt][1:end-1])
+    STAR(name, company, location, createdAt, starredAt)
 end
 
 function execute(query, graphqlurl = GRAPHQLURL, token = TOKEN)
@@ -101,7 +106,12 @@ function collect(owner, repo, output = OUTFILE; query = QUERY)
     q = render(query, Dict("cursor" => "", "owner" => owner, "repo" => repo))
     res = execute(q)
     cursor = res.data.repository.stargazers.edges[end].cursor
-    res = @_ map(STAR(_), res.data.repository.stargazers.nodes)
+    edges = copy(res.data.repository.stargazers.edges)
+    nodes = copy(res.data.repository.stargazers.nodes)
+    for (n, e) in zip(nodes, edges)
+      n[:starredAt] = e[:starredAt]
+    end
+    res = @_ map(STAR(_), nodes)
     num += length(res)
     @info "Current star number: " num
     res = DataFrame(res)
@@ -113,7 +123,12 @@ function collect(owner, repo, output = OUTFILE; query = QUERY)
         res = execute(q)
         isempty(res.data.repository.stargazers.edges) && break
         cursor = res.data.repository.stargazers.edges[end].cursor
-        res = @_ map(STAR(_), res.data.repository.stargazers.nodes)
+        edges = copy(res.data.repository.stargazers.edges)
+        nodes = copy(res.data.repository.stargazers.nodes)
+        for (n, e) in zip(nodes, edges)
+          n[:starredAt] = e[:starredAt]
+        end
+        res = @_ map(STAR(_), nodes)
         num += length(res)
         @info "Current star number: " num
         res = DataFrame(res)
