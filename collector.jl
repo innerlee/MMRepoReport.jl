@@ -1,3 +1,4 @@
+#!/usr/bin/env julia
 using HTTP
 using JSON3
 using Dates
@@ -28,6 +29,7 @@ const REPOS = [
                ("open-mmlab", "mmsegmentation", "mmsegmentation.csv"),
                ("open-mmlab", "mmdetection3d", "mmdetection3d.csv"),
                ("open-mmlab", "mmcv", "mmcv.csv"),
+               ("open-mmlab", "mim", "mim.csv"),
 ]
 const QUERY = mt"""
 query {

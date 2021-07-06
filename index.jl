@@ -1,5 +1,5 @@
 ### A Pluto.jl notebook ###
-# v0.14.3
+# v0.14.7
 
 using Markdown
 using InteractiveUtils
@@ -21,8 +21,11 @@ md"""
 ## Open-MMLab repository report
 """
 
+# ╔═╡ 6382ebb4-8ec2-4dc7-905d-a8b3a47be90c
+dfx = CSV.File("data/mm.csv", delim = '\1') |> DataFrame;
+
 # ╔═╡ 1700751e-32ea-11eb-2542-8dc5191e8fdd
-df = CSV.File("data/mm.csv", delim = '\1') |> DataFrame;
+df = dfx[dfx.createdAt .< [Date("2021-06-30")], :];
 
 # ╔═╡ 4d51622c-32ea-11eb-0447-115d7d50b528
 let
@@ -385,6 +388,8 @@ end
 # ╔═╡ Cell order:
 # ╟─5387f5da-32e9-11eb-0755-4761179a9e2e
 # ╟─341942e4-34b0-11eb-06cb-5567deeb8ff3
+# ╟─6382ebb4-8ec2-4dc7-905d-a8b3a47be90c
+# ╟─1700751e-32ea-11eb-2542-8dc5191e8fdd
 # ╟─4d51622c-32ea-11eb-0447-115d7d50b528
 # ╟─c217826c-32ea-11eb-2a1d-e736665734e2
 # ╟─47f606d6-32ed-11eb-3310-8d8049de3912
@@ -392,4 +397,3 @@ end
 # ╟─97a61064-32f1-11eb-3608-399a0b6972de
 # ╟─b287f230-3424-11eb-0222-4db2a5660145
 # ╟─2129de2c-34b1-11eb-1dd9-fb44921d4628
-# ╟─1700751e-32ea-11eb-2542-8dc5191e8fdd
